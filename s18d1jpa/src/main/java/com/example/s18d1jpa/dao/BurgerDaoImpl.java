@@ -8,6 +8,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -17,9 +18,10 @@ import java.util.List;
  * Bir işlem sınırı içinde işlem başarılıysa değişiklikler kalıcı hale gelir
  * ama hata oluşurssa @Transactional anotasyonu aracılığıyla değişiklikler geri alınır.(rollback)
  * findAll methodunda TypedQuery kullanmamızın nedeni tip güvenliği, performans ve optimizasyon,kod okunabilirliği ve hata ayıklamadan dolayıdır.
- *
+ * @Repository anotasyonu , işlemlerini veritabanıyla gerçekleştiren sınıfları işaretlemek için kullanılır.
  */
 
+@Repository
 public class BurgerDaoImpl implements BurgerDao {
     private final EntityManager entityManager;
 
