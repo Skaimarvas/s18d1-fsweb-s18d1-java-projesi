@@ -3,13 +3,16 @@ package com.example.s18d1jpa.dao;
 import com.example.s18d1jpa.entity.BreadType;
 import com.example.s18d1jpa.entity.Burger;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 /**
  * Create update ve delete işlemleri için EntityManagerı kullanacağız.
- *
+ * EntityManager türünde bir nesne oluşturmak ve bu nesneyi BurgerDaoImpl sınıfına enjekte etmek için @Autowired anotasyonu kullandık.
+ * Bir işlem sınırı içinde işlem başarılıysa değişiklikler kalıcı hale gelir
+ * ama hata oluşurssa @Transactional anotasyonu aracılığıyla değişiklikler geri alınır.(rollback)
  */
 
 public class BurgerDaoImpl implements BurgerDao {
@@ -19,10 +22,11 @@ public class BurgerDaoImpl implements BurgerDao {
     public BurgerDaoImpl(EntityManager entityManager){
         this.entityManager = entityManager;
     }
-
+    @Transactional
     @Override
     public Burger save(Burger burger) {
-        return null;
+        entityManager.persist(burger);
+        return burger;
     }
 
     @Override
