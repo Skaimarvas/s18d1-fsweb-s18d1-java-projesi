@@ -3,6 +3,7 @@ package com.example.s18d1jpa.dao;
 import com.example.s18d1jpa.entity.BreadType;
 import com.example.s18d1jpa.entity.Burger;
 import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -13,6 +14,11 @@ import java.util.List;
 
 public class BurgerDaoImpl implements BurgerDao {
     private final EntityManager entityManager;
+
+    @Autowired
+    public BurgerDaoImpl(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
 
     @Override
     public Burger save(Burger burger) {
