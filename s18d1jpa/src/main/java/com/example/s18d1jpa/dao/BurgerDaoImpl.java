@@ -2,10 +2,17 @@ package com.example.s18d1jpa.dao;
 
 import com.example.s18d1jpa.entity.BreadType;
 import com.example.s18d1jpa.entity.Burger;
+import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
+/**
+ * Create update ve delete işlemleri için EntityManagerı kullanacağız.
+ *
+ */
+
 public class BurgerDaoImpl implements BurgerDao {
+    private final EntityManager entityManager;
 
     @Override
     public Burger save(Burger burger) {
