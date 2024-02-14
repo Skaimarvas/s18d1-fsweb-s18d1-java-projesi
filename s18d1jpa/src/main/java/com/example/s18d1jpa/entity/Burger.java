@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
  * Fieldları oluştururken veri tiplerini wrapper classlarla oluşturmamızın nedeni null değeri eklemek için
  * @Column(name= "is_vegan") snake case olarak oluşturmamız gerekiyor
  * Enum değişkenleri @Enumerated anotasyonu ile veri tabanında eşleştirmesini yapıyoruz.
+ * spring.jpa.hibernate.ddl-auto = entityler ne ise ona göre tablo oluşturuyor.
  *
  */
 @Data
