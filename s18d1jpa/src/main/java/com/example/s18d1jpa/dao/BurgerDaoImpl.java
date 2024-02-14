@@ -2,10 +2,12 @@ package com.example.s18d1jpa.dao;
 
 import com.example.s18d1jpa.entity.BreadType;
 import com.example.s18d1jpa.entity.Burger;
+import com.example.s18d1jpa.exceptions.BurgerException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import java.util.List;
  * EntityManager türünde bir nesne oluşturmak ve bu nesneyi BurgerDaoImpl sınıfına enjekte etmek için @Autowired anotasyonu kullandık.
  * Bir işlem sınırı içinde işlem başarılıysa değişiklikler kalıcı hale gelir
  * ama hata oluşurssa @Transactional anotasyonu aracılığıyla değişiklikler geri alınır.(rollback)
+ * findAll methodunda TypedQuery kullanmamızın nedeni tip güvenliği, performans ve optimizasyon,kod okunabilirliği ve hata ayıklamadan dolayıdır.
+ *
  */
 
 public class BurgerDaoImpl implements BurgerDao {
@@ -32,6 +36,10 @@ public class BurgerDaoImpl implements BurgerDao {
 
     @Override
     public Burger findById(int id) {
+        Burger burger = entityManager.find(Burger.class,id);
+        if(burger == null){
+            throw new BurgerException("Burger with given id is not exist: " + id, HttpStatus.NOT_FOUND);
+        }
         return null;
     }
 
