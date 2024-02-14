@@ -3,6 +3,7 @@ package com.example.s18d1jpa.dao;
 import com.example.s18d1jpa.entity.BreadType;
 import com.example.s18d1jpa.entity.Burger;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,7 +57,8 @@ public class BurgerDaoImpl implements BurgerDao {
 
     @Override
     public List<Burger> findAll() {
-        return null;
+        TypedQuery<Burger> foundAll = entityManager.createQuery("SELECT b from Burger b", Burger.class);
+        return foundAll.getResultList();
     }
 
     @Override
