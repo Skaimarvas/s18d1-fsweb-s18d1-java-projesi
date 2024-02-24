@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -42,27 +43,36 @@ public class BurgerDaoImpl implements BurgerDao {
         if(burger == null){
             throw new BurgerException("Burger with given id is not exist: " + id, HttpStatus.NOT_FOUND);
         }
-        return null;
+        return burger;
     }
-
+    @Transactional
     @Override
     public Burger update(Burger newburger) {
-        return null;
+        return entityManager.merge(newburger);
     }
 
     @Override
     public Burger remove(int id) {
-        return null;
+        Burger foundBurger = findById(id);
+        entityManager.remove(foundBurger);
+        return foundBurger;
     }
 
     @Override
     public List<Burger> findByPrice(int price) {
-        return null;
+        TypedQuery<Burger> foundListQuery =
+                entityManager.createQuery("SELECT b FROM Burger b where b.price > :price ORDER BY b.price desc", Burger.class);
+        foundListQuery.setParameter("price", price);
+
+        return foundListQuery.getResultList();
     }
 
     @Override
     public List<Burger> findByBreadType(BreadType breadType) {
-        return null;
+        TypedQuery<Burger> query =
+                entityManager.createQuery("SELECT b FROM Burger b where b.breadType = :breadType ORDER BY b.name desc", Burger.class);
+        query.setParameter("breadType",breadType);
+        return query.getResultList();
     }
 
     @Override
@@ -73,6 +83,9 @@ public class BurgerDaoImpl implements BurgerDao {
 
     @Override
     public List<Burger> findByContent(String content) {
-        return null;
+        TypedQuery<Burger> query =
+                entityManager.createQuery("SELECT b FROM Burger b where b.contents like CONCAT('%', :content, '%') ORDER BY b.name", Burger.class);
+                query.setParameter("content", content);
+        return query.getResultList();
     }
 }
